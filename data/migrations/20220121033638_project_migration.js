@@ -22,11 +22,18 @@ exports.up = async function (knex) {
         .references("project_id")
         .inTable("projects")
         .unsigned();
+    })
+    .createTable("project_resources", (table) => {
+      table.increments("project_resources_id");
+      table.integer("project_id");
+      table.integer("resource_id");
+      table.text("resource_assignment");
     });
 };
 
 exports.down = async function (knex) {
   await knex.schema
+    .dropTableIfExists("project_resources")
     .dropTableIfExists("tasks")
     .dropTableIfExists("resources")
     .dropTableIfExists("projects");
