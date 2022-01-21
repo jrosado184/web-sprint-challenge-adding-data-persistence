@@ -2,19 +2,39 @@
 
 const db = require("./../../data/dbConfig");
 
-const getAll = () => {
-  return db("tasks as ts")
-    .leftJoin("projects as p", "p.project_id", "ts.project_id")
+const getAll = async () => {
+  const rows = await db("tasks")
+    .leftJoin("projects as p", "p.project_id", "tasks.project_id")
     .select(
-      "ts.task_id",
-      "ts.task_description",
-      "ts.task_notes",
-      "ts.task_completed",
+      "task_id",
+      "task_description",
+      "task_notes",
+      " task_completed",
       "p.project_name",
       "p.project_description"
     );
+
+  const newRow = rows.map((row) => {
+    const rowsNew = {
+      task_id: row.task_id,
+      task_description: row.task_description,
+      task_notes: row.task_notes,
+      task_completed: row.task_completed === 1 ? true : false,
+      project_name: row.project_name,
+      project_description: row.project_description,
+    };
+    return rowsNew;
+  });
+  return newRow;
+};
+
+const create = async (task) => {
+  const rows = await db("tasks").insert(task);
+
+  return rows;
 };
 
 module.exports = {
   getAll,
+  create,
 };

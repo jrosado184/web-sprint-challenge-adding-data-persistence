@@ -14,6 +14,24 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.post("/", (req, res, next) => {
+  const { task_id, task_description, task_notes, task_completed, project_id } =
+    req.body;
+  Tasks.create({
+    task_id,
+    task_description,
+    task_notes,
+    task_completed,
+    project_id,
+  })
+    .then((tasks) => {
+      res.status(201).json(tasks);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 router.use((err, req, res, next) => {
   res.json({
     message: err.message,

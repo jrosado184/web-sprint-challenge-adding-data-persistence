@@ -18,7 +18,7 @@ const getAll = async () => {
 
 const create = async (project) => {
   const [project_id] = await db("projects").insert(project);
-  return getAll().where({ project_id });
+  return db("projects").where({ project_id });
 };
 
 module.exports = {
