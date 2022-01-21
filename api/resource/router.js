@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Resource = require("./model");
-const { checkBody } = require("./resource_middleware");
+const { checkBody, uniqueNames } = require("./resource_middleware");
 
 router.get("/", (req, res, next) => {
   Resource.getAll()
@@ -15,7 +15,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.post("/", checkBody, (req, res, next) => {
+router.post("/", checkBody, uniqueNames, (req, res, next) => {
   const { resource_name, resource_description } = req.body;
   Resource.create({ resource_name, resource_description })
     .then((data) => {
