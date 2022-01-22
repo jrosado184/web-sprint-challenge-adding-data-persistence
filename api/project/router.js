@@ -25,12 +25,6 @@ router.post("/", checkBody, (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
-  Projects.getByProjectId(req.params.id).then((projects) => {
-    res.json(projects);
-  });
-});
-
 router.use((err, req, res, next) => {
   res.json({
     message: err.message,

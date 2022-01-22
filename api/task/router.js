@@ -33,12 +33,6 @@ router.post("/", checkBody, checkId, (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  Tasks.getId(req.params.id).then((task) => {
-    res.json(task);
-  });
-});
-
 router.use((err, req, res, next) => {
   res.json({
     message: err.message,
