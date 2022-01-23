@@ -25,8 +25,18 @@ exports.up = async function (knex) {
     })
     .createTable("project_resources", (table) => {
       table.increments("project_resources_id");
-      table.integer("project_id");
-      table.integer("resource_id");
+      table
+        .integer("project_id")
+        .notNullable()
+        .references("project_id")
+        .inTable("projecs")
+        .unsigned();
+      table
+        .integer("resource_id")
+        .notNullable()
+        .references("resource_id")
+        .inTable("resources")
+        .unsigned();
       table.text("resource_assignment");
     });
 };
